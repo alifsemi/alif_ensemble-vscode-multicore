@@ -24,26 +24,28 @@ To Do:
 
 ## Project Details:
 **Prerequisites**
-	- Setup the VSCode environment as outlined in [Getting Started with VSCode](https://alifsemi.com/download/AUGD0012)
+
+Setup the VSCode environment as outlined in [Getting Started with VSCode](https://alifsemi.com/download/AUGD0012). In addtion you need the following:
+
 	- Gen2 DevKit
 	- AlifSemi CMSIS pack v0.9.6 or above
 	- AzureRTOS pack 0.3.2 or above
 
-	RTEConfig:
-	- SE runtime Services:
-		- core
-		- Initialization helper
-	- RTOS
-		- Kernel
-	- SOC periperhals
-		- DMA
-		- GPIO
-		- MHU
-		- PINCONF
-		- USART
-	- Core
-	- Startup
-
+	- CMSIS components to be enabled in cproject file:
+		- SE runtime Services:
+			- core
+			- Initialization helper
+		- RTOS
+			- Kernel
+		- SOC periperhals
+			- DMA
+			- GPIO
+			- MHU
+			- PINCONF
+			- USART
+		- Core
+		- Startup
+  
 1. This project is composed of 2 sub-projects,
 	- HE_app and
 	- HP_app
