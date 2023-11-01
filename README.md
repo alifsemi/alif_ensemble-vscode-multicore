@@ -17,7 +17,7 @@ the Board Library submodule. From your local clone, do the following:
 ## For Multicore example build the projects for HE and HP using the step above. To debug both cores at the same time select
 launch configuration "Alif Ensemble Multicore Debugging"
 
-To Do:
+**To Do:**
 1. Currently both cores have to be loaded and executed. Support for HE to boot HP to be added.
 3. Add delays betweek LEDs ON and OFF to provide indication that the cores are running.
 4. Remove the RTSS Secure MHU pair from the number of MHU used. Thus freeing up a pair of MHUs.
@@ -124,16 +124,12 @@ Setup the VSCode environment as outlined in [Getting Started with VSCode](https:
 		- MhuGetPayload()
 			- utility function to memcopy the payload for higher-layer use.
 
-5. NOTES:
-	a. For RTOS based application, the MhuInit() needs to be called from within Thread context. 
-	   If this is called from outside thread context, then the MHU does not work.
-	b. The only link to figure out which MHU is being used is from the base-address being specified in "sender_base_addr_list[]" and "receiver_base_addr_list[]".
-	   These arrays get passed to "MHU_driver_initialize()" via struct "s_mhu_driver_in".
-	c. Removing the SESS MHU pairs and only using RTSS Non-secure MHU pair also does not work.
-	   It appears that the SESS MHU pairs are required for the Non-secure RTSS MHU's to work.
-	   This could be due to the reliance on SE Services library on MHUs for its operation.
+5. KNOWN LIMITATIONS:
+- For RTOS based application, the MhuInit() needs to be called from within Thread context. If this is called from outside thread context, then the MHU does not work.
+- The only link to figure out which MHU is being used is from the base-address being specified in "sender_base_addr_list[]" and "receiver_base_addr_list[]". These arrays get passed to "MHU_driver_initialize()" via struct "s_mhu_driver_in".
+- Removing the SESS MHU pairs and only using RTSS Non-secure MHU pair does not work. The SESS MHU pairs are required for the Non-secure RTSS MHU's to work.
 
-6. Build and Debug instructions:	
-	a. You can build each project seperately.
-	b. You can launch each project seperately.
-		- Each project contains its own Debug Configuration file which can be run independently.
+7. Build and Debug instructions:	
+- Each project needs to be built seperately by pressing CTRL-SHIFT-B.
+- Each project can be launched separately for debug or selecting Alif Ensemble Multicore Debug launch configuration will allow multi-core debugging from same VSCode session.
+
