@@ -125,11 +125,12 @@ Setup the VSCode environment as outlined in [Getting Started with VSCode](https:
 			- utility function to memcopy the payload for higher-layer use.
 
 5. KNOWN LIMITATIONS:
-- For RTOS based application, the MhuInit() needs to be called from within Thread context. If this is called from outside thread context, then the MHU does not work.
-- The only link to figure out which MHU is being used is from the base-address being specified in "sender_base_addr_list[]" and "receiver_base_addr_list[]". These arrays get passed to "MHU_driver_initialize()" via struct "s_mhu_driver_in".
-- Removing the SESS MHU pairs and only using RTSS Non-secure MHU pair does not work. The SESS MHU pairs are required for the Non-secure RTSS MHU's to work.
+	- For RTOS based application, the MhuInit() needs to be called from within Thread context. If this is called from outside thread context, then the MHU does not work.
+	- The only link to figure out which MHU is being used is from the base-address being specified in "sender_base_addr_list[]" and "receiver_base_addr_list[]". These arrays get passed to "MHU_driver_initialize()" via struct "s_mhu_driver_in".
+	- Removing the SESS MHU pairs and only using RTSS Non-secure MHU pair does not work. The SESS MHU pairs are required for the Non-secure RTSS MHU's to work.
+ 	- Uart2Receive is hard coded to receive 4 characters to include CR+LF. For LF only change Uart2Receive(console_string, 4) to Uart2Receive(console_string, 3). Next release will fix this.
 
 7. Build and Debug instructions:	
-- Each project needs to be built seperately by pressing CTRL-SHIFT-B.
-- Each project can be launched separately for debug or selecting Alif Ensemble Multicore Debug launch configuration will allow multi-core debugging from same VSCode session.
+	- Each project needs to be built seperately by pressing CTRL-SHIFT-B.
+	- Each project can be launched separately for debug or selecting Alif Ensemble Multicore Debug launch configuration will allow multi-core debugging from same VSCode session.
 
