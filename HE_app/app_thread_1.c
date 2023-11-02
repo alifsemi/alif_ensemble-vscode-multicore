@@ -6,6 +6,9 @@
 #include "services_lib_api.h"
 #include "services_lib_interface.h"
 
+#include <ctype.h>
+#include <stdio.h>
+
 #include "uart2_control.h"
 #define CONSOLE_RX_BUFF_SIZE		(32)
 
@@ -62,8 +65,13 @@ void tx_application_define(void *first_unused_memory)
 void app_thread_1_entry(ULONG thread_input)
 {
 	payload_t msg_from_hp;
+	char selected_led = 0; // 'G', 'R' or 'B', 0 means no LED selected
+	char selected_state = 0; // '0' = OFF, '1' = ON, 0 means no state selected
 
-	char thread_string[] = "[M55_HE] East<->West MHU demo. RGB LED0 control. Enter R1 to turnON RED led. R0 to turnOFF etc.\n";
+	const char thread_string[] = "[M55_HE] East<->West MHU demo. RGB LED0 control.\n";
+	const char select_led_str[] = "Select a LED by entering G, R or B\n";
+	const char select_state_str[] = "Select LED state, 0 = OFF, 1 = ON\n";
+
 	char console_string[CONSOLE_RX_BUFF_SIZE] = {0};
 
 	MhuInit();
@@ -72,17 +80,39 @@ void app_thread_1_entry(ULONG thread_input)
 
 	while(1)
 	{
-		Uart2Receive(console_string, 4);
-		printf("[UART2] %s\n", console_string);
+		if (!selected_led) {
+			Uart2Send(select_led_str, strlen(select_led_str));
+			Uart2Receive(&selected_led, 1);
+			selected_led = toupper(selected_led);
+			if (selected_led != 'G' && selected_led != 'R' && selected_led != 'B') {
+				/* User gave invalid LED identifier*/
+				selected_led = 0;
+			}
+		} else {
+			Uart2Send(select_state_str, strlen(select_state_str));
+			Uart2Receive(&selected_state, 1);
+			if (selected_state != '0' && selected_state != '1') {
+				/* User gave invalid LED state */
+				selected_state = 0;
+			}
+		}
 
-		MhuSendUserMsg(console_string);
+		/* User has selected a LED and state, so let's send it to M55 HP */
+		if (selected_led && selected_state) {
+			sprintf(console_string, "%c%c", selected_led, selected_state);
+			selected_led = 0;
+			selected_state = 0;
+			printf("[UART2] %s\n", console_string);
 
-		MhuReceiveMsg();	// Get ACK from HP
-		MhuGetPayload(&msg_from_hp);
-		printf("[M55_HE] MHU received msg = %s\n", msg_from_hp.msg);
+			MhuSendUserMsg(console_string);
 
-		printf("[AzureRTOS M55_HE] Spinning in Thread_1\n");
-		SERVICES_wait_ms(0x1000000);	// HE runs at 160MHz compared to HP at 400MHz
-		__WFI();
+			MhuReceiveMsg();	// Get ACK from HP
+			MhuGetPayload(&msg_from_hp);
+			printf("[M55_HE] MHU received msg = %s\n", msg_from_hp.msg);
+
+			printf("[AzureRTOS M55_HE] Spinning in Thread_1\n");
+			SERVICES_wait_ms(0x1000000);	// HE runs at 160MHz compared to HP at 400MHz
+			__WFI();
+		}
 	}
 }
