@@ -14,6 +14,6 @@ enum Uart2ControlError
 
 void Uart2Init(void);
 void Uart2Send(const char* ptxt, const unsigned int length);
-void Uart2Receive(const char* ptxt, const unsigned int length);
+void Uart2Receive(char* ptxt, const unsigned int length);
 
 #endif // UART2_CONTROL_H_

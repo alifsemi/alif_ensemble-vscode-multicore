@@ -54,13 +54,13 @@ void Uart2Send(const char* ptxt, const unsigned int length)
 	}
 }
 
-void Uart2Receive(const char* ptxt, const unsigned int length)
+void Uart2Receive(char* ptxt, const unsigned int length)
 {
 	int rc_receive = eUart2Ok;
 	int rc_rtos_flags = TX_SUCCESS;
 	ULONG events = 0;
 
-	rc_receive = USARTdrv->Receive((void *)ptxt, length);
+	rc_receive = USARTdrv->Receive(ptxt, length);
 	if (rc_receive != eUart2Ok)
 	{
 		Uart2Failure(eUart2RxFail);
