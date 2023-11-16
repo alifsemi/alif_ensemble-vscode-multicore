@@ -55,7 +55,7 @@ Setup the VSCode environment as outlined in [Getting Started with VSCode](https:
 	Here the user can enter commands from serial console to a HE core, simulating a wakeup use-case.
 	And instruct the HP core to perform a specific task.
 
-	- For this usecase, UART2 is connected to HE core as serial console.
+	- For this usecase, UART2 is connected to HE core as serial console. Make sure the J26 jumpers on the DevKit are set for UART2 
 	And using LED0 (R,G,B) ON/OFF control as a specific task.
 
 	- The commands input on the serial console are simple,
@@ -65,7 +65,8 @@ Setup the VSCode environment as outlined in [Getting Started with VSCode](https:
 		- G0 = turn OFF GREEN led0.
 		- B1 = turn ON BLUE led0.
 		- B0 = turn OFF BLUE led0.
-		
+	Note: There may be slight delay for the output to update on the screen.
+
 3. Source organization (APIs):
 	- main.c 			(Initial entry point of the C program)
 	- init_subsystem.c/.h 		(Pin-mux configuration and hardware initialization)
