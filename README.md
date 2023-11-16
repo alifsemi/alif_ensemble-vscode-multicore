@@ -65,7 +65,8 @@ Setup the VSCode environment as outlined in [Getting Started with VSCode](https:
 		- G0 = turn OFF GREEN led0.
 		- B1 = turn ON BLUE led0.
 		- B0 = turn OFF BLUE led0.
-	Note: There may be slight delay for the output to update on the screen.
+
+ Note: There may be slight delay for the output to update on the screen.
 
 3. Source organization (APIs):
 	- main.c 			(Initial entry point of the C program)
