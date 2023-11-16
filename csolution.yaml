@@ -33,8 +33,8 @@ solution:
         - ASM:
           - -include "./RTE/_HP/Pre_Include_Global.h"
   packs:
-    - pack: AlifSemiconductor::Ensemble@0.9.6
-    - pack: AlifSemiconductor::AzureRTOS@0.3.2
+    - pack: AlifSemiconductor::Ensemble@1.0.0
+    - pack: AlifSemiconductor::AzureRTOS@1.0.0
     - pack: ARM::CMSIS
   projects:
     - project: HE_app/cproject.yaml
