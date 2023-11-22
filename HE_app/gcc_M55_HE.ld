@@ -61,6 +61,9 @@ SECTIONS
   .copy.table : ALIGN(4)
   {
     __copy_table_start__ = .;
+    LONG ( LOADADDR(.data.at_dtcm) )
+    LONG ( ADDR(.data.at_dtcm) )
+    LONG ( SIZEOF(.data.at_dtcm)/4 )
     __copy_table_end__ = .;
   } > ITCM
 
@@ -97,7 +100,7 @@ SECTIONS
     *(.ARM.exidx* .gnu.linkonce.armexidx.*)
     __exidx_end = .;
 
-  } > DTCM
+  } > DTCM AT> ITCM
 
   .bss.at_sram0 (NOLOAD) : ALIGN(8)
   {
