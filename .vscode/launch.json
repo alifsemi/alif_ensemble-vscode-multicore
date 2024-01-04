@@ -32,7 +32,7 @@
             "preLaunchCommands": [
                 "monitor speed 15000"
             ],
-            "jlinkscript": ".alif/m55-hp_setup.jlinkscript",
+            //"jlinkscript": ".alif/m55-hp_setup.jlinkscript",  // Not needed with JLink v7.94b or higher.
             "chainedConfigurations": {
                 "enabled": true,
                 "waitOnEvent": "postInit",
@@ -65,7 +65,7 @@
             "preLaunchCommands": [
                 "monitor speed 15000"
             ],
-            "jlinkscript": ".alif/m55-he_setup.jlinkscript"
+            //"jlinkscript": ".alif/m55-he_setup.jlinkscript"   // Not needed with JLink v7.94b or higher.
         }
     ]
 }
