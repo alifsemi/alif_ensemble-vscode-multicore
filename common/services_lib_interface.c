@@ -25,6 +25,8 @@
 #include "services_lib_protocol.h"
 #include "mhu.h"
 
+#include "RTE_Components.h"
+#include CMSIS_device_header
 /*******************************************************************************
  *  M A C R O   D E F I N E S
  ******************************************************************************/
@@ -54,15 +56,11 @@ debug_print_function_t drv_debug_print_fn;
  */
 int32_t SERVICES_wait_ms(uint32_t wait_time_ms)
 {
-  /*
-   * To be filled in by the user
-   */
+
   for (volatile uint32_t i = 0; i < wait_time_ms; i++)
   {
-     /* Do nothing, but please do not optimse me out either */
-     __asm__ volatile("nop");
+    sys_busy_loop_us(1000);
   }
-
   return 0;
 }
 

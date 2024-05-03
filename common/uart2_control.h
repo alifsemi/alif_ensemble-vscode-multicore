@@ -4,6 +4,9 @@
 #define UART      			2		/* UART Driver instance (UART0-UART7) */
 #define UART2_BAUD_RATE 	(115200)
 
+/* Define the ThreadX object control blocks...  */
+#define TX_EVENT_REQUESTED_FLAGS_TO_SET        	(0x01)
+
 enum Uart2ControlError
 {
 	eUart2Ok = 0,

@@ -1,35 +1,36 @@
 # VSCode Multicore Project based on Azure RTOS
 A simple multicore "Hello World" example project based on Azure RTOS with M55-HP and M55-HE applications.
 
-To build the projects for a supported board other than the DevKit, you may have to download
+To build the projects for a supported board you need to download
 the Board Library submodule. From your local clone, do the following:
-1. *submodule init*
-2. *submodule update*
-3. Update the board.h file to pick the right variant of the board. By default the template will build for gen2 DevKit.
-**NOTE**: Current project does not utilize the board library. To be enabled in the future. 
+1. *git submodule init*
+2. *git submodule update*
+3. Update the common/board.h file to pick the right variant of the board. By default the template will build for gen2 DevKit.
+
+## Build and launch multicore example
+1. Press F1 and "Run Tasks" and run the "Build multicore (debug)". This task builds both HP_app and HE_app projects as debug build. **NOTE:** CMSIS solution default build task builds only the core chosen by the context.
+2. Press F1 and "Run Tasks" and run the "Install Debug Stubs with Security Toolkit"
+3. Launch debug configuration "Alif Ensemble Multicore Debugging". This is configured as default when pressing the CMSIS solution debug icon.
 
 ## For building the application for a specific core:
-1. Make sure you select the configuration by pressing F1 and typing "select a configuration" and picking the core - HE or HP
-2. Press CTRL-SHIFT-B to build the porject. Default is set to build for executing from TCM
-3. Press F1 and "Run Tasks" and run the "Install Debug Stubs with Security Toolkit"
+1. Select the target-type (core) for the build context in CMSIS solution "Manage Solution Settings"
+2. Select "Alif Ensemble Debug (Cortex-Debug)" as Debug Configuration
+3. Build the project by clicking the CMSIS solution build icon (hammer)
+4. Press F1 and "Run Tasks" and run the "Install Debug Stubs with Security Toolkit"
 5. Press F5 to start debugging
-
-## For Multicore example build the projects for HE and HP using the step above. To debug both cores at the same time select
-launch configuration "Alif Ensemble Multicore Debugging"
 
 **To Do:**
 1. Currently both cores have to be loaded and executed. Support for HE to boot HP to be added.
-3. Add delays betweek LEDs ON and OFF to provide indication that the cores are running.
-4. Remove the RTSS Secure MHU pair from the number of MHU used. Thus freeing up a pair of MHUs.
+2. Remove the RTSS Secure MHU pair from the number of MHU used. Thus freeing up a pair of MHUs.
 
 ## Project Details:
 **Prerequisites**
 
-Setup the VSCode environment as outlined in [Getting Started with VSCode](https://alifsemi.com/download/AUGD0012). In addtion you need the following:
+Setup the VSCode environment as outlined in template project's [Getting started guide](https://github.com/alifsemi/alif_vscode-template/blob/master/doc/getting_started.md)
 
 	- Gen2 DevKit
-	- AlifSemi CMSIS pack v0.9.6 or above
-	- AzureRTOS pack 0.3.2 or above
+	- AlifSemi CMSIS pack v1.1.1 or above
+	- AzureRTOS pack 1.1.0 or above
 
 	- CMSIS components to be enabled in cproject file:
 		- SE runtime Services:
@@ -132,5 +133,6 @@ Setup the VSCode environment as outlined in [Getting Started with VSCode](https:
 	- Removing the SESS MHU pairs and only using RTSS Non-secure MHU pair does not work. The SESS MHU pairs are required for the Non-secure RTSS MHU's to work.
 
 7. Build and Debug instructions:	
-	- Each project needs to be built seperately by pressing CTRL-SHIFT-B.
+	- Each project can be built seperately.
+	- pressing CTRL-SHIFT-B builds both HE_app and HP_app (see .vscode/tasks.json).
 	- Each project can be launched separately for debug or selecting Alif Ensemble Multicore Debug launch configuration will allow multi-core debugging from same VSCode session.

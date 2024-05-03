@@ -1,5 +1,5 @@
 #include "commons.h"
-#include "app_thread_1.h"
+#include "rtos_error.h"
 #include "uart2_control.h"
 
 void DeviceFailure(void)
