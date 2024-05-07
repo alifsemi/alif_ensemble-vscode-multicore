@@ -5,7 +5,7 @@
 #include "mhu_control.h"
 #include "services_lib_api.h"
 #include "services_lib_interface.h"
-
+#include "rtos_error.h"
 #include <ctype.h>
 #include <stdio.h>
 
@@ -126,7 +126,7 @@ void app_thread_1_entry(ULONG thread_input)
 			sprintf(random_val_msg, "Random Value = 0x%X; service error code = %d\n", rnd_value, service_error_code);
 			Uart2Send(random_val_msg, strlen(random_val_msg));
 
-			SERVICES_wait_ms(0x1000000);	// HE runs at 160MHz compared to HP at 400MHz
+			SERVICES_wait_ms(100);
 			__WFI();
 		}
 	}

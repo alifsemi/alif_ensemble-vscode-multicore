@@ -1,7 +1,8 @@
 #include "uart2_control.h"
 #include "Driver_USART.h"
-#include "app_thread_1.h"
+#include "rtos_error.h"
 #include "error_handler.h"
+#include "tx_api.h"
 
 extern TX_EVENT_FLAGS_GROUP event_flags_uart;
 
