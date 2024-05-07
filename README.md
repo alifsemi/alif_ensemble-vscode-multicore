@@ -19,6 +19,10 @@ the Board Library submodule. From your local clone, do the following:
 4. Press F1 and "Run Tasks" and run the "Install Debug Stubs with Security Toolkit"
 5. Press F5 to start debugging
 
+## Programming the multicore solution using SE tools
+You can run the solution (HE and HP apps) from MRAM without the debugger connection (standalone).
+1. After building HE and HP apps, Press F1 and "Run Tasks" and run the "Program with Security Toolkit (multicore)"
+
 **To Do:**
 1. Currently both cores have to be loaded and executed. Support for HE to boot HP to be added.
 2. Remove the RTSS Secure MHU pair from the number of MHU used. Thus freeing up a pair of MHUs.
