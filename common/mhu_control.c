@@ -1,6 +1,7 @@
+#include <RTE_Components.h>
+#include CMSIS_device_header
+
 #include "mhu_control.h"
-#include "commons.h"
-#include "M55_HP.h"
 #include "mhu.h"
 #include "mhu_driver.h"
 #include "services_lib_api.h"
@@ -26,21 +27,19 @@
 #define MHU1_RECV_M55_BASE     	(0x400A0000)	// Non-Secure MHU-1
 #define MHU1_SEND_M55_BASE     	(0x400B0000)
 
-
-#define MHU_SESS_S_RX_IRQ  	(37)
-#define MHU_SESS_S_TX_IRQ  	(38)
-#define MHU_SESS_NS_RX_IRQ 	(39)
-#define MHU_SESS_NS_TX_IRQ 	(40)
-#define M55RECV_MHU0_COMB_IRQn	(41)
-#define M55SEND_MHU0_COMB_IRQn 	(42)
-#define M55RECV_MHU1_COMB_IRQn 	(43)
-#define M55SEND_MHU1_COMB_IRQn 	(44)
+#define MHU_SESS_S_RX_IRQ  MHU_SESS_S_RX_IRQ_IRQn
+#define MHU_SESS_S_TX_IRQ  MHU_SESS_S_TX_IRQ_IRQn
+#define MHU_SESS_NS_RX_IRQ MHU_SESS_NS_RX_IRQ_IRQn
+#define MHU_SESS_NS_TX_IRQ MHU_SESS_NS_TX_IRQ_IRQn
+#define M55RECV_MHU0_COMB_IRQn	MHU_RTSS_S_RX_IRQ_IRQn
+#define M55SEND_MHU0_COMB_IRQn 	MHU_RTSS_S_TX_IRQ_IRQn
+#define M55RECV_MHU1_COMB_IRQn 	MHU_RTSS_NS_RX_IRQ_IRQn
+#define M55SEND_MHU1_COMB_IRQn 	MHU_RTSS_NS_TX_IRQ_IRQn
 
 #define MHU_M55_SE_MHU0        	(0)
 #define MHU_M55_SE_MHU1        	(1)
 #define MHU_M55_M55_MHU0       	(2)
 #define MHU_M55_M55_MHU1       	(3)
-
 
 static payload_t 	received_payload;	// memcopied from HandleMsg()
 static atomic_bool 	msg_received;
@@ -50,10 +49,20 @@ static mhu_driver_out_t s_mhu_driver_out;
 uint32_t services_handle  = 0xffffffff;
 uint32_t m55_comms_handle = 0xffffffff;
 
-uint32_t sender_base_addr_list[NUM_MHU] 	 = {SE_MHU0_SEND_BASE, SE_MHU1_SEND_BASE,
-						    MHU0_SEND_M55_BASE, MHU1_SEND_M55_BASE};
-uint32_t receiver_base_addr_list[NUM_MHU] = {SE_MHU0_RECV_BASE, SE_MHU1_RECV_BASE,
-						    MHU0_RECV_M55_BASE, MHU1_RECV_M55_BASE};
+uint32_t sender_base_addr_list[NUM_MHU] = 
+{
+    SE_MHU0_SEND_BASE,
+    SE_MHU1_SEND_BASE,
+    MHU0_SEND_M55_BASE,
+    MHU1_SEND_M55_BASE
+};
+uint32_t receiver_base_addr_list[NUM_MHU] = 
+{
+    SE_MHU0_RECV_BASE, 
+    SE_MHU1_RECV_BASE,
+    MHU0_RECV_M55_BASE, 
+    MHU1_RECV_M55_BASE
+};
 
 static void Mhu0SenderIrqHandler();
 static void Mhu0ReceiverIrqHandler();
@@ -188,8 +197,9 @@ void MhuInit(void)
 	SetupMhu();
 
     SERVICES_Setup(s_mhu_driver_out.send_message, MAXIMUM_TIMEOUT);
-    m55_comms_handle = SERVICES_register_channel(MHU_M55_M55_MHU1, 0);
-    SERVICES_wait_ms(0x2000000);
+    m55_comms_handle = SERVICES_register_channel(MHU_M55_M55_MHU1, 0); // east<->west comms.
+    services_handle = SERVICES_register_channel(MHU_M55_SE_MHU0, 1);   // north<->south comms.
+    SERVICES_wait_ms(100);
 }
 
 void MhuReceiveMsg(void)
@@ -201,11 +211,10 @@ void MhuReceiveMsg(void)
 
 void MhuSendMsg(void)
 {
-	char msg_string[] = "From M55_HP: Ack";
 	uint32_t rc = SERVICE_SUCCESS;
 	payload_t payload;
 
-	sprintf(payload.msg, "%s", msg_string);
+	sprintf(payload.msg, "Message from %s", CPU_NAME);
     rc = SERVICES_send_msg(m55_comms_handle, (uint32_t)LocalToGlobal(&payload));
 }
 
@@ -222,3 +231,4 @@ void MhuGetPayload(payload_t *ppayload)
 {
 	memcpy(ppayload, &received_payload, sizeof(payload_t));
 }
+

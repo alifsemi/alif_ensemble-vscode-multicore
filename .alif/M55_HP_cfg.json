@@ -1,0 +1,11 @@
+{
+  "HP_APP": {
+    "binary": "alif-img-M55_HP.bin",
+    "mramAddress": "0x80100000",
+    "loadAddress": "0x50000000",
+    "version": "1.0.0",
+    "cpu_id": "M55_HP",
+    "flags": ["load", "boot"],
+    "signed": false
+  }
+}

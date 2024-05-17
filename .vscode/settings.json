@@ -6,4 +6,20 @@
     "cmake.configureOnOpen": false,
 
     "cortex-debug.variableUseNaturalFormat": false,
+    "cmsis-csolution.actions": [
+        {
+            "path": "alif.csolution.yaml",
+            "target": "HP",
+            "config": {
+                "debug": "Alif Ensemble Multicore Debug"
+            }
+        },
+        {
+            "path": "alif.csolution.yaml",
+            "target": "HE",
+            "config": {
+                "debug": "Alif Ensemble Multicore Debug"
+            }
+        }
+    ],
 }

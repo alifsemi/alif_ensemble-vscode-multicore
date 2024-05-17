@@ -5,6 +5,7 @@
 #include "mhu_control.h"
 #include "services_lib_api.h"
 #include "services_lib_interface.h"
+#include "rtos_error.h"
 #include "app_thread_1_task1.h"
 
 /* Define the ThreadX object control blocks...  */
@@ -66,7 +67,7 @@ void app_thread_1_entry(ULONG thread_input)
 		task1_run();
 
 		printf("[AzureRTOS M55_HP] Spinning in Thread_1\n");
-		SERVICES_wait_ms(0x3000000);	// HP runs at 400Mhz, hence requires longer delay.
+		SERVICES_wait_ms(100);
 		__WFI();
 	}
 }
